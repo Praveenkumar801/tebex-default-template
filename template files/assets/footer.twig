@@ -1,13 +1,88 @@
 <footer class="site-footer">
   <div class="site-footer-inner">
-    <ul class="we-accept">
-      <li><img src="https://template-assets.tebex.io/images/we-accept/apple.svg" alt="Apple Pay"></li>
-      <li><img src="https://template-assets.tebex.io/images/we-accept/google.png" alt="Google Pay"></li>
-      <li><img src="https://template-assets.tebex.io/images/we-accept/mastercard.png" alt="Mastercard"></li>
-      <li><img src="https://template-assets.tebex.io/images/we-accept/visa.png" alt="Visa"></li>
-      <li><img src="https://template-assets.tebex.io/images/we-accept/amex.png" alt="American Express"></li>
-    </ul>
+    <div class="pangea-footer-grid">
 
-    <p class="copyright">{{ __("© :year :store_name. All Rights Reserved. We do not have affiliation with any real world brands.", { 'year': 'now'|date('Y'), 'store_name': store.name }) }}</p>
+      {# Brand column #}
+      <div>
+        <div class="pangea-footer-brand">{{ store.name }}</div>
+        <p class="pangea-footer-desc">
+          Embark on your RPG survival adventure. Explore vast worlds, earn ranks, and thrive with an amazing community!
+        </p>
+        {% if config('server-url') %}
+          <div style="margin-top:12px;">
+            <div style="font-size:0.7rem;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Server IP</div>
+            <span
+              class="pangea-footer-server-ip"
+              data-copy="{{ config('server-url') }}"
+              title="Click to copy"
+            >
+              {{ config('server-text') ? config('server-text') : config('server-url') }}
+            </span>
+          </div>
+        {% endif %}
+      </div>
+
+      {# Shop column #}
+      <div class="pangea-footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          {% for category in store.categories %}
+            <li><a href="/category/{{ category.slug ? category.slug : category.id }}">{{ category.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      {# Community column #}
+      <div class="pangea-footer-col">
+        <h4>Community</h4>
+        <ul>
+          {% if config('discord-link') %}
+            <li><a href="{{ config('discord-link') }}" target="_blank" rel="noopener">Discord Server</a></li>
+          {% endif %}
+          {% for page in store.pages %}
+            <li><a href="/{{ page.slug }}">{{ page.title }}</a></li>
+          {% endfor %}
+          <li><span>Vote for Us</span></li>
+        </ul>
+      </div>
+
+      {# Connect / Payments column #}
+      <div class="pangea-footer-col">
+        <h4>We Accept</h4>
+        <div class="pangea-footer-payments">
+          <img src="https://template-assets.tebex.io/images/we-accept/visa.png" alt="Visa">
+          <img src="https://template-assets.tebex.io/images/we-accept/mastercard.png" alt="Mastercard">
+          <img src="https://template-assets.tebex.io/images/we-accept/amex.png" alt="American Express">
+          <img src="https://template-assets.tebex.io/images/we-accept/google.png" alt="Google Pay">
+          <img src="https://template-assets.tebex.io/images/we-accept/apple.svg" alt="Apple Pay">
+        </div>
+        {% if config('discord-link') %}
+          <div style="margin-top:16px;">
+            <a
+              href="{{ config('discord-link') }}"
+              target="_blank"
+              rel="noopener"
+              class="pangea-footer-discord-link"
+            >
+              <img
+                src="https://webstore-template-assets.tebex.io/images/discord.svg"
+                alt="Discord"
+                style="width:16px;height:16px;"
+              />
+              Join Discord
+            </a>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+
+    <hr class="pangea-footer-divider">
+
+    <div class="pangea-footer-bottom">
+      <p>{{ __("© :year :store_name. All Rights Reserved. Not affiliated with Mojang Studios.", { 'year': 'now'|date('Y'), 'store_name': store.name }) }}</p>
+      <p style="font-size:0.7rem;">Powered by <span style="color:var(--color-primary);">Tebex</span></p>
+    </div>
   </div>
 </footer>

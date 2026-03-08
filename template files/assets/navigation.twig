@@ -11,15 +11,8 @@
 
     {% for category in store.categories %}
       <li class="
-        {% if category.active %}
-          active
-          {% if category.subcategories|length > 0 %}
-            expanded
-          {% endif %}
-        {% endif %}
-        {% if category.subcategories|length > 0 %}
-          has-children
-        {% endif %}
+        {% if category.active %}active{% if category.subcategories|length > 0 %} expanded{% endif %}{% endif %}
+        {% if category.subcategories|length > 0 %} has-children{% endif %}
       ">
         <a
           href="/category/{{ category.slug ? category.slug : category.id }}"
@@ -28,7 +21,6 @@
 
         {% if category.subcategories|length > 0 %}
           <button class="btn-tertiary btn-glyph toggle">{{ __("Toggle") }}</button>
-
           <ul>
             {% for subcategory in category.subcategories %}
               <li {% if subcategory.active %}class="active"{% endif %}>

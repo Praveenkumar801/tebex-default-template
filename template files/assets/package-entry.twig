@@ -1,33 +1,33 @@
 {% set packageIdentifier = package.identifier ? package.identifier : package.id %}
 {% set hasImage = package.media|length > 0 and package.media[0].url != packageImageDefault %}
 
-<article class="store-product">
+{# Detect rank from package name to apply rank-specific colour accent #}
+{% set rankKey = '' %}
+{% if 'president' in package.name|lower %}{% set rankKey = 'president' %}
+{% elseif 'governor' in package.name|lower %}{% set rankKey = 'governor' %}
+{% elseif 'commander' in package.name|lower %}{% set rankKey = 'commander' %}
+{% elseif 'officer' in package.name|lower %}{% set rankKey = 'officer' %}
+{% elseif 'citizen' in package.name|lower %}{% set rankKey = 'citizen' %}
+{% endif %}
+
+<article class="store-product" {% if rankKey %}data-rank="{{ rankKey }}"{% endif %}>
   <a
     class="image-link"
     href="/package/{{ packageIdentifier }}"
     title="{{ __("Click for more details.") }}"
   >
     {% if hasImage %}
-      <img
-        class="image"
-        src="{{ package.media[0].url }}"
-        alt="{{ package.name }}"
-      />
+      <img class="image" src="{{ package.media[0].url }}" alt="{{ package.name }}" />
     {% else %}
       <div class="image image-default"></div>
     {% endif %}
   </a>
 
   <h4 class="product-title">
-    <a href="/package/{{ packageIdentifier }}">
-      {{ package.name }}
-    </a>
+    <a href="/package/{{ packageIdentifier }}">{{ package.name }}</a>
     {% if package.countdownEnds %}
-      <span
-        class="countdown"
-        data-countdown="{{ package.countdownEnds }}"
-      >
-        {{__("Ending Soon!") }}
+      <span class="countdown" data-countdown="{{ package.countdownEnds }}">
+        {{ __("Ending Soon!") }}
       </span>
     {% endif %}
   </h4>

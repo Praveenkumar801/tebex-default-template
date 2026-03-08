@@ -2281,3 +2281,51 @@ class Drawer {
 }
 
 init()
+
+/* ─── PangeaMC Rank Perks Modal ──────────────────────────────────
+   Handles the "View Rank Perks" overlay shown on the store home page.
+   Called via data-pangea-modal attributes to avoid inline JS.
+   ──────────────────────────────────────────────────────────────── */
+;(function pangeaModal() {
+  function openModal(id) {
+    const el = document.getElementById(id)
+    if (el) el.classList.add('open')
+  }
+
+  function closeModal(id) {
+    const el = document.getElementById(id)
+    if (el) el.classList.remove('open')
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Open triggers  — [data-open-modal="<id>"]
+    document.querySelectorAll('[data-open-modal]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        openModal(btn.dataset.openModal)
+      })
+    })
+
+    // Close triggers — [data-close-modal="<id>"]
+    document.querySelectorAll('[data-close-modal]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        closeModal(btn.dataset.closeModal)
+      })
+    })
+
+    // Click-outside-to-close on the overlay itself
+    document.querySelectorAll('.pangea-rank-modal-overlay').forEach(function (overlay) {
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) overlay.classList.remove('open')
+      })
+    })
+
+    // Keyboard: Escape closes any open modal
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.pangea-rank-modal-overlay.open').forEach(function (el) {
+          el.classList.remove('open')
+        })
+      }
+    })
+  })
+})()
