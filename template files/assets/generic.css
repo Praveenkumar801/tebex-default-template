@@ -79,6 +79,7 @@
 
 
     --bg-image: none;
+    --color-server-live: #4ade80;  /* pulsing "online" dot in the server header pill */
 }
 
 @media (width > 960px) {
@@ -172,14 +173,27 @@ body::before {
 
 /* ── Site Header ─────────────────────────────────────────── */
 
+/*
+ * Transparent at page-top so hero image bleeds behind the header.
+ * JS (main.js) adds .is-scrolled after scrollY > 40px → opaque frosted glass.
+ * rgba(6,4,2) matches --color-bg (#1e1a15) darkened toward true black.
+ */
 .site > .site-header {
-    background: rgba(12,9,6,0.88);
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(6,4,2,0.12);
+    border-bottom: 1px solid rgba(255,255,255,0.0);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+.site > .site-header.is-scrolled {
+    background: rgba(10,7,4,0.93);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
 .site-header-inner {
@@ -227,7 +241,7 @@ body::before {
     object-fit: contain;
 }
 
-/* Info pills */
+/* ── Info pills (server + discord) ── */
 .site-header-inner .info {
     order: 2;
     position: static !important;
@@ -235,12 +249,12 @@ body::before {
     display: inline-flex !important;
     align-items: center !important;
     gap: 8px !important;
-    padding: 7px 15px !important;
+    padding: 8px 16px !important;
     width: auto !important;
     max-width: none !important;
     line-height: normal !important;
-    background: rgba(255,255,255,0.06) !important;
-    border: 1px solid rgba(255,255,255,0.11) !important;
+    background: rgba(255,255,255,0.07) !important;
+    border: 1px solid rgba(255,255,255,0.14) !important;
     border-radius: 99px !important;
     transition: var(--transition) !important;
     white-space: nowrap;
@@ -250,10 +264,25 @@ body::before {
     cursor: pointer;
 }
 
-.site-header-inner .info:hover {
-    background: rgba(122,154,181,0.13) !important;
-    border-color: var(--color-primary) !important;
-    box-shadow: var(--glow-primary) !important;
+/* Server pill — green accent */
+.site-header-inner .info.server {
+    border-color: rgba(74,222,128,0.30) !important;
+}
+.site-header-inner .info.server:hover {
+    background: rgba(74,222,128,0.10) !important;
+    border-color: rgba(74,222,128,0.65) !important;
+    box-shadow: 0 0 18px rgba(74,222,128,0.22) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Discord pill — brand purple accent */
+.site-header-inner .info.discord {
+    border-color: rgba(88,101,242,0.35) !important;
+}
+.site-header-inner .info.discord:hover {
+    background: rgba(88,101,242,0.12) !important;
+    border-color: rgba(88,101,242,0.75) !important;
+    box-shadow: 0 0 18px rgba(88,101,242,0.28) !important;
     transform: translateY(-1px) !important;
 }
 
@@ -265,7 +294,7 @@ body::before {
     margin: 0 !important;
     border-radius: 0 !important;
     flex-shrink: 0;
-    opacity: 0.85;
+    opacity: 0.9;
 }
 
 .site-header-inner .info .title {
@@ -274,11 +303,31 @@ body::before {
     line-height: 1 !important;
     color: var(--color-text) !important;
     letter-spacing: 0.01em;
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Pulsing live-dot before server IP */
+.site-header-inner .info.server .title::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-server-live);
+    box-shadow: 0 0 5px var(--color-server-live);
+    flex-shrink: 0;
+    animation: pangea-dot-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes pangea-dot-pulse {
+    0%, 100% { opacity: 1;    box-shadow: 0 0 4px var(--color-server-live); }
+    50%       { opacity: 0.55; box-shadow: 0 0 10px var(--color-server-live), 0 0 20px rgba(74,222,128,0.38); }
 }
 
 .site-header-inner .info .action {
-    font-size: 0.65rem !important;
+    font-size: 0.64rem !important;
     font-weight: 400 !important;
     line-height: 1 !important;
     color: var(--color-text-secondary) !important;
@@ -289,7 +338,7 @@ body::before {
     display: block;
 }
 
-/* Login / user actions — pushed to the right */
+/* ── Login / user actions — right edge ── */
 .site-header-inner .log-in,
 .site-header-inner .user-actions {
     order: 10;
@@ -300,6 +349,46 @@ body::before {
     align-items: center !important;
     gap: 10px !important;
     flex-shrink: 0;
+}
+
+/* Login — gold accent pill CTA */
+.site-header-inner .log-in {
+    font-family: 'Orbitron', monospace !important;
+    font-size: 0.70rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.10em !important;
+    text-transform: uppercase !important;
+    padding: 9px 22px !important;
+    border-radius: 99px !important;
+    background: transparent !important;
+    border: 1.5px solid var(--color-accent) !important;
+    color: var(--color-accent) !important;
+    box-shadow: 0 0 14px rgba(230,183,25,0.18), inset 0 0 14px rgba(230,183,25,0.04) !important;
+    text-decoration: none !important;
+    transition: var(--transition) !important;
+}
+.site-header-inner .log-in:hover,
+.site-header-inner .log-in:focus {
+    background: rgba(230,183,25,0.12) !important;
+    border-color: var(--color-accent-hover) !important;
+    color: var(--color-accent-hover) !important;
+    box-shadow: 0 0 22px rgba(230,183,25,0.42), inset 0 0 18px rgba(230,183,25,0.10) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Basket + username buttons — pill-shaped to match */
+.site-header-inner .user-actions .btn-primary {
+    border-radius: 99px !important;
+    padding: 9px 22px !important;
+    font-size: 0.70rem !important;
+    letter-spacing: 0.08em !important;
+    box-shadow: 0 0 16px rgba(122,154,181,0.28) !important;
+}
+.site-header-inner .user-actions .btn-secondary {
+    border-radius: 99px !important;
+    padding: 9px 18px !important;
+    font-size: 0.70rem !important;
+    letter-spacing: 0.08em !important;
 }
 
 /* Logo text — solid fallback, enhanced with gradient clip where supported */
@@ -968,14 +1057,23 @@ body::before {
 .pangea-hero {
     position: relative;
     text-align: center;
-    padding: 100px 24px 80px;
+    /* top padding = header height + breathing room; negative margin pulls section under header */
+    padding: calc(60px + 80px) 24px 80px;
+    margin-top: -60px;
     overflow: hidden;
-    min-height: calc(100vh - 72px);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: transparent;
+}
+
+@media (max-width: 960px) {
+    .pangea-hero {
+        margin-top: -56px;
+        padding-top: calc(56px + 60px);
+    }
 }
 
 .pangea-hero-bg {

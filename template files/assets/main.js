@@ -2329,3 +2329,18 @@ init()
     })
   })
 })()
+
+/* ─── Header scroll transparency ────────────────────────────────
+   Adds .is-scrolled to the site-header once the user scrolls past
+   40px, switching it from transparent (over hero) to frosted-glass
+   opaque (over content).  Removed immediately on scroll back to top.
+   ──────────────────────────────────────────────────────────────── */
+;(function pangeaHeaderScroll() {
+    const header = document.querySelector('.site > .site-header')
+    if (!header) return
+    function update() {
+        header.classList.toggle('is-scrolled', window.scrollY > 40)
+    }
+    window.addEventListener('scroll', update, { passive: true })
+    update()
+})()
