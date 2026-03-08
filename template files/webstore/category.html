@@ -3,14 +3,26 @@
 {% block content %}
 <div class="site-content site-content-widgets">
   <main class="store-products">
+
+    {# Section header #}
+    <div class="pangea-section-head">
+      <h2>{{ category.name }}</h2>
+      {% if category.description != "" %}
+        <p>{{ category.description|striptags }}</p>
+      {% endif %}
+    </div>
+
+    {# Full description if rich content #}
     {% if category.description != "" %}
-      <div class="category-description text-content">
+      <div class="category-description text-content" style="margin-bottom:24px;">
         {{ category.description|raw }}
       </div>
     {% endif %}
 
     {% if category.packages|length == 0 %}
-      <p class="no-products">{{ __("No packages to display in this category.") }}
+      <p class="no-products" style="padding:24px;">
+        {{ __("No packages to display in this category.") }}
+      </p>
     {% else %}
       <div class="store-products-{{ category.displayType }}">
         {% for package in category.packages %}
@@ -21,6 +33,7 @@
         {% endfor %}
       </div>
     {% endif %}
+
   </main>
 
   {% include "sidebar.twig" %}

@@ -1,37 +1,31 @@
 <header id="header" class="site-header">
   <div class="site-header-inner">
     <div class="actions">
-        <button class="btn-tertiary btn-icon toggle-navigation">{{ __("Toggle menu") }}</button>
+      <button class="btn-tertiary btn-icon toggle-navigation" aria-label="{{ __("Toggle menu") }}">{{ __("Toggle menu") }}</button>
     </div>
 
+    {# User / basket actions #}
     {% if basket.username %}
       <div class="user-actions">
-        <a
-          class="btn-secondary btn-glyph-text user-name"
-          href="/checkout/logout"
-        >
+        <a class="btn-secondary btn-glyph-text user-name" href="/checkout/logout">
           <span class="text-inner">
-            <span class="text">
-              {{ basket.ign }}
-            </span>
-            <span class="text-hover">
-              {{ __("Log out") }}
-            </span>
+            <span class="text">{{ basket.ign }}</span>
+            <span class="text-hover">{{ __("Log out") }}</span>
           </span>
         </a>
-
         <button class="btn-primary btn-glyph-text open-basket">
           {{ __("Basket") }}
         </button>
       </div>
     {% elseif store.noLogin == false %}
-        <a class="log-in btn-tertiary" href="/login">{{ __("Login") }}</a>
+      <a class="log-in btn-tertiary" href="/login">{{ __("Login") }}</a>
     {% elseif store.noLogin == true %}
       <div class="user-actions">
         <button class="btn-primary btn-glyph-text open-basket">{{ __("Basket") }}</button>
       </div>
     {% endif %}
 
+    {# Site title / logo #}
     <h1 class="site-title">
       <a href="/">
         {% if store.logo %}
@@ -42,12 +36,13 @@
       </a>
     </h1>
 
+    {# Server IP #}
     {% if config('server-url') %}
       <div class="info server">
         <img
           class="image"
           src="https://webstore-template-assets.tebex.io/images/server-logo.svg"
-          alt="{{ __("Server name") }}"
+          alt="{{ __("Server") }}"
         />
         <strong class="title">
           {{ config('server-text') ? config('server-text') : config('server-url') }}
@@ -59,8 +54,9 @@
       </div>
     {% endif %}
 
+    {# Discord link #}
     {% if config('discord-link') %}
-      <a class="info discord" href="{{ config('discord-link') }}" target="_blank">
+      <a class="info discord" href="{{ config('discord-link') }}" target="_blank" rel="noopener">
         <img
           class="image"
           src="https://webstore-template-assets.tebex.io/images/discord.svg"
@@ -72,12 +68,14 @@
     {% endif %}
   </div>
 
+  {# Sale banner #}
   {% if config('sale-banner-text') %}
     <p class="site-sale-banner">
       {{ config('sale-banner-text') }}
     </p>
   {% endif %}
 
+  {# Horizontal navigation (inline) #}
   {% if isNavigationVertical == false %}
     {% include "navigation.twig" %}
   {% endif %}

@@ -3,29 +3,296 @@
 {% block bodyClass %}page-index{% endblock %}
 
 {% block content %}
-  {% if config('home-categories') == 'On' %}
-    <div class="site-home-categories">
-      {% for category in store.categories %}
-        <a class="category" href="/category/{{ category.slug ? category.slug : category.id }}">
-          {% if category.image != packageImageDefault %}
-            <img class="image" src="{{ category.image }}" alt="{{ category.name }}"/>
-          {% else %}
-            <div class="image image-default"></div>
-          {% endif %}
 
-          {{ category.name }}
-        </a>
-      {% endfor %}
-    </div>
-  {% endif %}
-
-  <div class="site-content {% if config('home-sidebar') == 'On' %}site-content-widgets{% endif %}">
-    <main class="store-text text-content">
-      {{ index.description|raw }}
-    </main>
-
-    {% if config('home-sidebar') == 'On' %}
-      {% include "sidebar.twig" %}
-    {% endif %}
+{# ─── Hero Section ─────────────────────────────────────────────── #}
+<section class="pangea-hero">
+  <div class="pangea-hero-bg">
+    <span class="pangea-hero-particle"></span>
+    <span class="pangea-hero-particle"></span>
+    <span class="pangea-hero-particle"></span>
   </div>
+
+  <div class="pangea-hero-eyebrow">
+    ⚔ Official Server Store
+  </div>
+
+  <h1 class="pangea-hero-title">
+    Welcome to the<br>
+    <span class="store-name-highlight">{{ store.name }}</span> Store
+  </h1>
+
+  <p class="pangea-hero-sub">
+    Unlock exclusive ranks, powerful commands, and premium perks to elevate your survival experience. Support the server and dominate the world!
+  </p>
+
+  <div class="pangea-hero-actions">
+    {% if store.categories|length > 0 %}
+      <a
+        href="/category/{{ store.categories[0].slug ? store.categories[0].slug : store.categories[0].id }}"
+        class="pangea-btn-primary"
+      >
+        🛒 Browse Store
+      </a>
+    {% endif %}
+    <button
+      class="pangea-btn-outline"
+      data-open-modal="rankPerksModal"
+    >
+      👑 View Rank Perks
+    </button>
+  </div>
+
+  {# Server stats strip #}
+  <div class="pangea-stats-strip">
+    {% if config('server-url') %}
+      <div class="pangea-stat-card">
+        <div class="pangea-stat-value">24/7</div>
+        <div class="pangea-stat-label">Uptime</div>
+      </div>
+    {% endif %}
+    <div class="pangea-stat-card">
+      <div class="pangea-stat-value">5</div>
+      <div class="pangea-stat-label">Unique Ranks</div>
+    </div>
+    <div class="pangea-stat-card">
+      <div class="pangea-stat-value">RPG</div>
+      <div class="pangea-stat-label">Game Mode</div>
+    </div>
+    <div class="pangea-stat-card">
+      <div class="pangea-stat-value">⚡</div>
+      <div class="pangea-stat-label">Instant Delivery</div>
+    </div>
+  </div>
+</section>
+
+{# ─── Rank Tier Strip ──────────────────────────────────────────── #}
+<div class="pangea-rank-strip">
+  <span class="pangea-rank-chip citizen">
+    <span class="pangea-rank-dot citizen"></span>⚙ Citizen
+  </span>
+  <span class="pangea-rank-chip officer">
+    <span class="pangea-rank-dot officer"></span>✦ Officer
+  </span>
+  <span class="pangea-rank-chip commander">
+    <span class="pangea-rank-dot commander"></span>✪ Commander
+  </span>
+  <span class="pangea-rank-chip governor">
+    <span class="pangea-rank-dot governor"></span>⚖ Governor
+  </span>
+  <span class="pangea-rank-chip president">
+    <span class="pangea-rank-dot president"></span>✯ President
+  </span>
+</div>
+
+{# ─── Home Categories (if enabled) ────────────────────────────── #}
+{% if config('home-categories') == 'On' %}
+  <div class="site-home-categories">
+    {% for category in store.categories %}
+      <a class="category" href="/category/{{ category.slug ? category.slug : category.id }}">
+        {% if category.image != packageImageDefault %}
+          <img class="image" src="{{ category.image }}" alt="{{ category.name }}"/>
+        {% else %}
+          <div class="image image-default"></div>
+        {% endif %}
+        {{ category.name }}
+      </a>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{# ─── Main Content ─────────────────────────────────────────────── #}
+<div class="site-content {% if config('home-sidebar') == 'On' %}site-content-widgets{% endif %}">
+  <main>
+    {# Store description (set in Tebex admin) #}
+    {% if index.description %}
+      <div class="store-text text-content" style="margin-bottom:24px;">
+        {{ index.description|raw }}
+      </div>
+    {% endif %}
+
+    {# ── Why Buy? info grid ── #}
+    <div class="pangea-section-head" style="margin-top:8px;">
+      <h2>Why Shop With Us?</h2>
+      <p>Everything you need for the ultimate PangeaMC experience</p>
+    </div>
+    <div class="pangea-info-grid">
+      <div class="pangea-info-card">
+        <div class="pangea-info-icon">🔒</div>
+        <h3>Secure Payments</h3>
+        <p>Industry-standard encryption via Tebex. Every transaction is protected.</p>
+      </div>
+      <div class="pangea-info-card" style="--float-delay:0.5s">
+        <div class="pangea-info-icon" style="animation-delay:0.5s">⚡</div>
+        <h3>Instant Delivery</h3>
+        <p>Rank activates the moment your payment clears — no waiting.</p>
+      </div>
+      <div class="pangea-info-card">
+        <div class="pangea-info-icon" style="animation-delay:1s">🎮</div>
+        <h3>Epic Commands</h3>
+        <p>/fly, /heal, /feed, /repair — unlock powerful gameplay commands.</p>
+      </div>
+      <div class="pangea-info-card">
+        <div class="pangea-info-icon" style="animation-delay:1.5s">🏆</div>
+        <h3>Show Your Status</h3>
+        <p>Exclusive chat prefix, colored name, and cosmetic effects in-game.</p>
+      </div>
+    </div>
+
+    {# ── Store Policies ── #}
+    <div class="pangea-section-head" style="margin-top:36px;">
+      <h2>Policies</h2>
+    </div>
+    <div class="pangea-policy-grid">
+      <div class="pangea-policy-box">
+        <h3>Refund Policy</h3>
+        <ul>
+          <li>• <strong>Digital goods:</strong> No refunds after rank activation</li>
+          <li>• <strong>Payment issues:</strong> Contact support within 24 hours</li>
+          <li>• <strong>Subscriptions:</strong> Cancel anytime; no refund for current period</li>
+          <li>• <strong>Server bans:</strong> No refunds for rule violations</li>
+          <li>• <strong>Chargebacks:</strong> Result in permanent server ban</li>
+        </ul>
+      </div>
+      <div class="pangea-policy-box">
+        <h3>Terms &amp; Conditions</h3>
+        <ul>
+          <li>• Ranks are non-transferable between accounts</li>
+          <li>• All server rules apply to rank holders</li>
+          <li>• Perks may be adjusted for gameplay balance</li>
+          <li>• Purchases are final and cannot be exchanged</li>
+          <li>• By purchasing you agree to our full terms</li>
+        </ul>
+      </div>
+    </div>
+
+    {# ── Discord CTA ── #}
+    {% if config('discord-link') %}
+      <div class="pangea-discord-cta">
+        <h3>Have Questions?</h3>
+        <p>Join our Discord for instant support, community events, giveaways, and updates on new features and ranks!</p>
+        <a
+          href="{{ config('discord-link') }}"
+          target="_blank"
+          rel="noopener"
+          class="pangea-btn-primary"
+          style="display:inline-flex;"
+        >
+          <img
+            src="https://webstore-template-assets.tebex.io/images/discord.svg"
+            alt="Discord"
+            style="width:18px;height:18px;"
+          />
+          Join Discord
+        </a>
+      </div>
+    {% endif %}
+  </main>
+
+  {% if config('home-sidebar') == 'On' %}
+    {% include "sidebar.twig" %}
+  {% endif %}
+</div>
+
+{# ─── Rank Perks Modal ─────────────────────────────────────────── #}
+<div
+  class="pangea-rank-modal-overlay"
+  id="rankPerksModal"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Rank Perks"
+>
+  <div class="pangea-rank-modal">
+    <button
+      class="pangea-rank-modal-close"
+      data-close-modal="rankPerksModal"
+      aria-label="Close"
+    >✕</button>
+
+    <div class="pangea-rank-modal-title">Rank Perks</div>
+    <p class="pangea-rank-modal-sub">All ranks are permanent upgrades. Higher ranks include all perks from ranks below them.</p>
+
+    <div class="pangea-ranks-grid">
+
+      {# Citizen #}
+      <div class="pangea-rank-card citizen">
+        <div class="pangea-rank-badge">⚙ Citizen</div>
+        <div class="pangea-rank-name">Citizen</div>
+        <ul class="pangea-rank-perks">
+          <li>Default starter rank</li>
+          <li>Access to all public areas</li>
+          <li>1 /home location</li>
+          <li>Basic chat access</li>
+          <li>Community events access</li>
+        </ul>
+      </div>
+
+      {# Officer #}
+      <div class="pangea-rank-card officer">
+        <div class="pangea-rank-badge">✦ Officer</div>
+        <div class="pangea-rank-name">Officer</div>
+        <ul class="pangea-rank-perks">
+          <li>All Citizen perks</li>
+          <li>/kit officer exclusive</li>
+          <li>5 /home locations</li>
+          <li>Colored chat &amp; nickname</li>
+          <li>Enhanced support access</li>
+        </ul>
+      </div>
+
+      {# Commander #}
+      <div class="pangea-rank-card commander">
+        <div class="pangea-rank-badge">✪ Commander</div>
+        <div class="pangea-rank-name">Commander</div>
+        <ul class="pangea-rank-perks">
+          <li>All Officer perks</li>
+          <li>/repair tool repairs</li>
+          <li>/kit commander exclusive</li>
+          <li>10 /home locations</li>
+          <li>Custom title &amp; particles</li>
+        </ul>
+      </div>
+
+      {# Governor #}
+      <div class="pangea-rank-card governor">
+        <div class="pangea-rank-badge">⚖ Governor</div>
+        <div class="pangea-rank-name">Governor</div>
+        <ul class="pangea-rank-perks">
+          <li>All Commander perks</li>
+          <li>/fly — limited flight</li>
+          <li>15 /home locations</li>
+          <li>Governor-only areas</li>
+          <li>Custom title &amp; particles</li>
+        </ul>
+      </div>
+
+      {# President #}
+      <div class="pangea-rank-card president">
+        <div class="pangea-rank-badge">✯ President</div>
+        <div class="pangea-rank-name">President</div>
+        <ul class="pangea-rank-perks">
+          <li>All Governor perks</li>
+          <li>/fly — fly anywhere</li>
+          <li>/heal — instant health</li>
+          <li>/feed — instant hunger</li>
+          <li>Unlimited /home locations</li>
+          <li>Exclusive cosmetics &amp; title</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div style="text-align:center;margin-top:28px;">
+      {% if store.categories|length > 0 %}
+        <a
+          href="/category/{{ store.categories[0].slug ? store.categories[0].slug : store.categories[0].id }}"
+          class="pangea-btn-primary"
+          data-close-modal="rankPerksModal"
+        >
+          🛒 Shop Ranks Now
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 {% endblock %}
