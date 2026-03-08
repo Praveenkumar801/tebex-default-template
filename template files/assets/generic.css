@@ -188,8 +188,142 @@ body::before {
 }
 
 /* ─── Site Header ───────────────────────────────────────── */
-.site-header {
-    background: rgba(30,26,21,0.97);
+
+/*
+ * Override the default 355 px tall hero header from shared.css.
+ * We want a compact, sticky navigation bar instead.
+ */
+@media (width > 960px) {
+    .site-header-inner {
+        height: auto !important;
+        min-height: 72px;
+        display: flex !important;
+        align-items: center;
+        flex-wrap: nowrap;
+        padding: 0 !important;
+        gap: 12px;
+        position: static !important;
+    }
+
+    /* Hide the .actions wrapper — it only holds the mobile hamburger toggle */
+    .site-header-inner .actions {
+        display: none !important;
+    }
+
+    /* Site title: first in flex row */
+    .site-header-inner .site-title {
+        position: static !important;
+        inset: auto !important;
+        order: 1;
+        line-height: normal !important;
+        font-size: 1.3rem !important;
+        font-weight: 900 !important;
+        width: auto !important;
+        height: auto !important;
+        text-align: left !important;
+    }
+
+    .site-header-inner .site-title img {
+        max-height: 44px !important;
+        max-width: 160px !important;
+        margin: 0 !important;
+    }
+
+    /* Server / Discord info badges — appear after the title */
+    .site-header-inner .info {
+        position: static !important;
+        inset: auto !important;
+        order: 2;
+        width: auto !important;
+        max-width: none !important;
+        line-height: normal !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        padding: 6px 12px !important;
+        flex-shrink: 0;
+    }
+
+    .site-header-inner .info.server { padding-left: 12px !important; }
+    .site-header-inner .info.discord {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+        text-align: left !important;
+    }
+
+    /* Icons inside info badges */
+    .site-header-inner .info .image {
+        position: static !important;
+        inset: auto !important;
+        margin: 0 !important;
+        width: 20px !important;
+        height: 20px !important;
+        flex-shrink: 0;
+    }
+    .site-header-inner .info.discord .image {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .site-header-inner .info .title {
+        display: block;
+        font-size: 0.78rem !important;
+        line-height: 1.2 !important;
+        font-weight: 600;
+    }
+
+    .site-header-inner .info .action {
+        display: block;
+        font-size: 0.7rem !important;
+        line-height: 1.2 !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 160px;
+    }
+
+    /* User actions / Login — pushed to far right via margin-left: auto */
+    .site-header-inner .log-in,
+    .site-header-inner .user-actions {
+        position: static !important;
+        inset: auto !important;
+        order: 3;
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+}
+
+/* Mobile: override the large 110 px top padding */
+@media (width <= 960px) {
+    .site-header-inner {
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+    }
+
+    .site-header-inner .site-title {
+        line-height: normal !important;
+        font-size: 1.5rem !important;
+    }
+
+    .site-header-inner .site-title img {
+        max-height: 44px !important;
+    }
+}
+
+/*
+ * Apply background image (from config('bg-image')) to the header.
+ * Falls back to the solid dark colour when no image is configured.
+ */
+.site > .site-header {
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(30,26,21,0.90) 0%,
+            rgba(30,26,21,0.97) 100%
+        ),
+        var(--bg-image, none) center center / cover no-repeat;
     border-bottom: 1px solid var(--color-border);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -299,6 +433,40 @@ body::before {
     border-radius: var(--radius);
     background: var(--color-card);
     border: 1px solid var(--color-border);
+}
+
+/* ─── Sub-category Chips ────────────────────────────────── */
+.pangea-subcategory-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.pangea-subcategory-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
+    border-radius: 99px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    background: rgba(122,154,181,0.07);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.pangea-subcategory-chip:hover,
+.pangea-subcategory-chip.active {
+    background: rgba(122,154,181,0.15);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    box-shadow: var(--glow-primary);
+    text-decoration: none;
 }
 
 /* ─── Store Text / Homepage ─────────────────────────────── */
