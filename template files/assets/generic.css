@@ -361,7 +361,7 @@ body::before {
     flex-shrink: 0;
 }
 
-/* Login — gold accent pill CTA */
+/* Login — primary (steel-blue) pill CTA to match the site's colour palette */
 .site-header-inner .log-in {
     font-family: 'Orbitron', monospace !important;
     font-size: 0.70rem !important;
@@ -371,18 +371,18 @@ body::before {
     padding: 9px 22px !important;
     border-radius: 99px !important;
     background: transparent !important;
-    border: 1.5px solid var(--color-accent) !important;
-    color: var(--color-accent) !important;
-    box-shadow: 0 0 14px rgba(230,183,25,0.18), inset 0 0 14px rgba(230,183,25,0.04) !important;
+    border: 1.5px solid var(--color-primary) !important;
+    color: var(--color-primary) !important;
+    box-shadow: 0 0 14px rgba(122,154,181,0.18), inset 0 0 14px rgba(122,154,181,0.04) !important;
     text-decoration: none !important;
     transition: var(--transition) !important;
 }
 .site-header-inner .log-in:hover,
 .site-header-inner .log-in:focus {
-    background: rgba(230,183,25,0.12) !important;
-    border-color: var(--color-accent-hover) !important;
-    color: var(--color-accent-hover) !important;
-    box-shadow: 0 0 22px rgba(230,183,25,0.42), inset 0 0 18px rgba(230,183,25,0.10) !important;
+    background: rgba(122,154,181,0.12) !important;
+    border-color: var(--color-primary-hover) !important;
+    color: var(--color-primary-hover) !important;
+    box-shadow: 0 0 22px rgba(122,154,181,0.42), inset 0 0 18px rgba(122,154,181,0.10) !important;
     transform: translateY(-1px) !important;
 }
 
@@ -500,6 +500,29 @@ body::before {
 }
 
 @media (width > 960px) {
+    /* Navigation fills the center slot in the header flex row (logo ← nav → login).
+     * Default order: 0 would put it BEFORE the logo (order: 1), pushing the logo
+     * to the middle. order: 3 puts it after the logo and after the info pills. */
+    .site-header-inner .site-navigation {
+        order: 3;
+        flex: 1;          /* grow to fill all remaining space between logo and login */
+        min-width: 0;     /* allow shrinking without breaking flex container */
+        overflow: visible; /* allow dropdown menus to escape the 60px header */
+    }
+
+    /* Inside the compact header the nav list is transparent — the header bar
+     * provides the background. The dark frosted-glass panel is only for
+     * stand-alone navigation rendered outside the header. */
+    .site-header-inner .navigation-horizontal > ul {
+        background: transparent !important;
+        border: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    /* Stand-alone navigation panel (outside .site-header-inner) keeps its look */
     .navigation-horizontal > ul {
         border-radius: var(--radius);
         background: rgba(38,32,26,0.96);
@@ -1074,10 +1097,12 @@ body::before {
     overflow: hidden;
     /*
      * Default: auto height so there is no giant empty black void when no
-     * background image is configured.  JS adds .has-bg-image when --bg-image
-     * is set, which restores the dramatic full-viewport look.
+     * background image is configured.
+     * head.twig sets --hero-min-height: 100vh when config('bg-image') is set,
+     * so this is CSS-driven without needing JS alone.
+     * JS also adds .has-bg-image as a belt-and-suspenders fallback.
      */
-    min-height: auto;
+    min-height: var(--hero-min-height, auto);
     display: flex;
     flex-direction: column;
     align-items: center;
