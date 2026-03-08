@@ -454,6 +454,7 @@ body::before {
 
     .site-header-inner .actions {
         display: flex !important;
+        position: static !important;  /* shared.css makes this absolute; reset to flex flow */
         order: 0;
         flex-shrink: 0;
     }
