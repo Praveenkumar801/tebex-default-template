@@ -24,22 +24,6 @@
     Support the server and dominate the world!
   </p>
 
-  <div class="pangea-hero-actions">
-    {% if store.categories|length > 0 %}
-      <a href="/category/{{ store.categories[0].slug ? store.categories[0].slug : store.categories[0].id }}" class="pangea-btn-primary">
-        🛒 Browse Store
-      </a>
-    {% endif %}
-    <button class="pangea-btn-outline" data-open-modal="rankPerksModal">
-      👑 View Rank Perks
-    </button>
-    {% if config('discord-link') %}
-      <a href="{{ config('discord-link') }}" target="_blank" rel="noopener" class="pangea-btn-ghost">
-        💬 Join Discord
-      </a>
-    {% endif %}
-  </div>
-
   <div class="pangea-stats-strip">
     {% if config('server-url') %}
       <div class="pangea-stat-card">
