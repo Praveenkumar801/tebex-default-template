@@ -4,7 +4,6 @@
       <button class="btn-tertiary btn-icon toggle-navigation" aria-label="{{ __("Toggle menu") }}">{{ __("Toggle menu") }}</button>
     </div>
 
-    {# User / basket actions #}
     {% if basket.username %}
       <div class="user-actions">
         <a class="btn-secondary btn-glyph-text user-name" href="/checkout/logout">
@@ -25,7 +24,6 @@
       </div>
     {% endif %}
 
-    {# Site title / logo #}
     <h1 class="site-title">
       <a href="/">
         {% if store.logo %}
@@ -36,7 +34,6 @@
       </a>
     </h1>
 
-    {# Server IP #}
     {% if config('server-url') %}
       <div class="info server">
         <img
@@ -54,7 +51,6 @@
       </div>
     {% endif %}
 
-    {# Discord link #}
     {% if config('discord-link') %}
       <a class="info discord" href="{{ config('discord-link') }}" target="_blank" rel="noopener">
         <img
@@ -68,14 +64,12 @@
     {% endif %}
   </div>
 
-  {# Sale banner #}
   {% if config('sale-banner-text') %}
     <p class="site-sale-banner">
       {{ config('sale-banner-text') }}
     </p>
   {% endif %}
 
-  {# Horizontal navigation (inline) #}
   {% if isNavigationVertical == false %}
     {% include "navigation.twig" %}
   {% endif %}

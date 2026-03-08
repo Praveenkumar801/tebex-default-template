@@ -4,19 +4,16 @@
 <div class="site-content site-content-widgets">
   <main class="store-products">
 
-    {# Section header #}
     <div class="pangea-section-head">
       <h2>{{ category.name }}</h2>
     </div>
 
-    {# Full description if set #}
     {% if category.description != "" %}
       <div class="category-description text-content" style="margin-bottom:24px;">
         {{ category.description|raw }}
       </div>
     {% endif %}
 
-    {# Sub-categories #}
     {% if category.subcategories|length > 0 %}
       <div class="pangea-subcategory-list">
         {% for sub in category.subcategories %}
