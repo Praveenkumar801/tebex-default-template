@@ -2332,15 +2332,28 @@ init()
 
 /* ─── Header scroll transparency ────────────────────────────────
    Adds .is-scrolled to the site-header once the user scrolls past
-   40px, switching it from transparent (over hero) to frosted-glass
+   80px, switching it from transparent (over hero) to frosted-glass
    opaque (over content).  Removed immediately on scroll back to top.
    ──────────────────────────────────────────────────────────────── */
 ;(function pangeaHeaderScroll() {
     const header = document.querySelector('.site > .site-header')
     if (!header) return
     function update() {
-        header.classList.toggle('is-scrolled', window.scrollY > 40)
+        header.classList.toggle('is-scrolled', window.scrollY > 80)
     }
     window.addEventListener('scroll', update, { passive: true })
     update()
+})()
+
+/* ─── Hero full-viewport toggle ──────────────────────────────────
+   Adds .has-bg-image to .pangea-hero when --bg-image is configured.
+   Without it the hero uses auto height to avoid a giant black void.
+   ──────────────────────────────────────────────────────────────── */
+;(function pangeaHeroBgDetect() {
+    const hero = document.querySelector('.pangea-hero')
+    if (!hero) return
+    const val = getComputedStyle(document.documentElement).getPropertyValue('--bg-image').trim()
+    if (val && val !== 'none') {
+        hero.classList.add('has-bg-image')
+    }
 })()

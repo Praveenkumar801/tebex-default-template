@@ -175,10 +175,20 @@ body::before {
 
 /*
  * Transparent at page-top so hero image bleeds behind the header.
- * JS (main.js) adds .is-scrolled after scrollY > 40px → opaque frosted glass.
+ * JS (main.js) adds .is-scrolled after scrollY > 80px → opaque frosted glass.
  * rgba(6,4,2) matches --color-bg (#1e1a15) darkened toward true black.
+ *
+ * Override shared.css: .site-header gets max-width+padding from shared which
+ * would make the bar narrower than the viewport. We reset those here so the
+ * glassmorphism background stretches edge-to-edge; inner content width is
+ * already handled by .site-header-inner below.
+ * Specificity of this selector (0,2,0) beats shared.css (.site-header = 0,1,0)
+ * and generic.css is loaded after shared.css, so no !important needed.
  */
 .site > .site-header {
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
     background: rgba(6,4,2,0.12);
     border-bottom: 1px solid rgba(255,255,255,0.0);
     backdrop-filter: blur(8px);
@@ -1061,7 +1071,12 @@ body::before {
     padding: calc(60px + 80px) 24px 80px;
     margin-top: -60px;
     overflow: hidden;
-    min-height: 100vh;
+    /*
+     * Default: auto height so there is no giant empty black void when no
+     * background image is configured.  JS adds .has-bg-image when --bg-image
+     * is set, which restores the dramatic full-viewport look.
+     */
+    min-height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1069,10 +1084,18 @@ body::before {
     background: transparent;
 }
 
+/* Full-viewport hero only when a background image is actually configured */
+.pangea-hero.has-bg-image {
+    min-height: 100vh;
+}
+
 @media (max-width: 960px) {
     .pangea-hero {
         margin-top: -56px;
         padding-top: calc(56px + 60px);
+    }
+    .pangea-hero.has-bg-image {
+        min-height: 100svh;
     }
 }
 
