@@ -14,35 +14,59 @@
 {% block content %}
 <div class="site-content site-content-widgets">
   <main
-    class="store-product store-product-full"
+    class="store-product store-product-full pangea-package-full"
     data-popup
     {% if rankKey %}data-rank="{{ rankKey }}"{% endif %}
-    {% if rankKey %}style="border-top:3px solid var(--rank-{{ rankKey }})"{% endif %}
+    {% if rankKey %}style="--rank-color: var(--rank-{{ rankKey }}); border-top: 3px solid var(--rank-{{ rankKey }})"{% endif %}
   >
-    <h2 class="product-title">
-      {{ package.name }}
-      {% if package.countdownEnds %}
-        <span class="countdown" data-countdown="{{ package.countdownEnds }}">
-          {{ __("Ending Soon!") }}
-        </span>
-      {% endif %}
-    </h2>
 
+    {# ── Top hero row: image + identity ──────────────────────────── #}
     {%- set hasImage = package.media|length > 0 and package.media[0].url != packageImageDefault -%}
 
-    {% if package.media|length > 1 %}
-      {%- include "package-media.twig" -%}
-    {% elseif hasImage %}
-      <img class="image" src="{{ package.media[0].url }}" alt="{{ package.name }}" />
-    {% else %}
-      <div class="image image-default"></div>
-    {% endif %}
+    <div class="pangea-pkg-hero">
+      {# Image panel — constrained, never full-bleed #}
+      <div class="pangea-pkg-image-wrap">
+        {% if package.media|length > 1 %}
+          {%- include "package-media.twig" -%}
+        {% elseif hasImage %}
+          <img class="pangea-pkg-image" src="{{ package.media[0].url }}" alt="{{ package.name }}" />
+        {% else %}
+          <div class="image image-default pangea-pkg-image-default"></div>
+        {% endif %}
+      </div>
 
-    {% include 'package-actions.twig' with { package, currency: basket.currency } %}
+      {# Identity panel: title, rank badge, price, CTA #}
+      <div class="pangea-pkg-identity">
+        {% if rankKey %}
+          <div class="pangea-pkg-rank-badge pangea-pkg-rank-{{ rankKey }}">
+            {{ rankKey|upper }}
+          </div>
+        {% endif %}
 
-    <div class="descr text-content">
-      {{ package.description|raw }}
+        <h2 class="product-title pangea-pkg-title">
+          {{ package.name }}
+          {% if package.countdownEnds %}
+            <span class="countdown" data-countdown="{{ package.countdownEnds }}">
+              {{ __("Ending Soon!") }}
+            </span>
+          {% endif %}
+        </h2>
+
+        {% include 'package-actions.twig' with { package, currency: basket.currency } %}
+      </div>
     </div>
+
+    {# ── Description ─────────────────────────────────────────────── #}
+    <div class="pangea-pkg-descr-wrap">
+      <div class="pangea-pkg-descr-header">
+        <span class="pangea-pkg-descr-icon">📜</span>
+        {{ __("Package Details") }}
+      </div>
+      <div class="descr text-content pangea-pkg-descr">
+        {{ package.description|raw }}
+      </div>
+    </div>
+
   </main>
 
   {% if isPopup == false %}
