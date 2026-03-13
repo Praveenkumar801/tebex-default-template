@@ -33,35 +33,6 @@
         {% endif %}
       </a>
     </h1>
-
-    {% if config('server-url') %}
-      <div class="info server">
-        <img
-          class="image"
-          src="https://webstore-template-assets.tebex.io/images/server-logo.svg"
-          alt="{{ __("Server") }}"
-        />
-        <strong class="title">
-          {{ config('server-text') ? config('server-text') : config('server-url') }}
-        </strong>
-        <button
-          class="action"
-          data-copy="{{ config('server-url') }}"
-        >{{ __("Click to Copy") }}</button>
-      </div>
-    {% endif %}
-
-    {% if config('discord-link') %}
-      <a class="info discord" href="{{ config('discord-link') }}" target="_blank" rel="noopener">
-        <img
-          class="image"
-          src="https://webstore-template-assets.tebex.io/images/discord.svg"
-          alt="{{ __("Discord") }}"
-        />
-        <strong class="title">{{ __("Join our Discord") }}</strong>
-        <span class="action">{{ __("Click to Join") }}</span>
-      </a>
-    {% endif %}
   </div>
 
   {% if config('sale-banner-text') %}

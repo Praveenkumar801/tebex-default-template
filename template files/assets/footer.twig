@@ -30,27 +30,13 @@
           {% endfor %}
         </ul>
       </div>
-
-      <div class="pangea-footer-col">
-        <h4>Community</h4>
-        <ul>
-          {% if config('discord-link') %}
-            <li><a href="{{ config('discord-link') }}" target="_blank" rel="noopener">Discord Server</a></li>
-          {% endif %}
-          {% for page in store.pages %}
-            <li><a href="/{{ page.slug }}">{{ page.title }}</a></li>
-          {% endfor %}
-          <li><span>Vote for Us</span></li>
-        </ul>
-      </div>
-
       <div class="pangea-footer-col">
         <h4>PangeaMC</h4>
         <ul>
           <li><a href="https://mcpangea.com/" target="_blank" rel="noopener">Main Website</a></li>
           <li><a href="https://mcpangea.com/events" target="_blank" rel="noopener">Events</a></li>
           <li><a href="https://mcpangea.com/shop" target="_blank" rel="noopener">Web Shop</a></li>
-          <li><a href="https://mcpangea.com/vote" target="_blank" rel="noopener">Vote for Us</a></li>
+          <li><a href="https://mcpangea.com/voting" target="_blank" rel="noopener">Vote for Us</a></li>
           <li><a href="https://mcpangea.com/rules" target="_blank" rel="noopener">Server Rules</a></li>
         </ul>
       </div>
@@ -89,7 +75,6 @@
 
     <div class="pangea-footer-bottom">
       <p>{{ __("© :year :store_name. All Rights Reserved. Not affiliated with Mojang Studios.", { 'year': 'now'|date('Y'), 'store_name': store.name }) }}</p>
-      <p style="font-size:0.7rem;">Powered by <span style="color:var(--color-primary);">Tebex</span></p>
     </div>
   </div>
 </footer>
