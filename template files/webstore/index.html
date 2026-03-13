@@ -4,45 +4,26 @@
 
 {% block content %}
 
-{# ─── Hero Section ─────────────────────────────────────────────── #}
 <section class="pangea-hero">
   <div class="pangea-hero-bg">
     <span class="pangea-hero-particle"></span>
     <span class="pangea-hero-particle"></span>
     <span class="pangea-hero-particle"></span>
+    <span class="pangea-hero-particle"></span>
   </div>
 
-  <div class="pangea-hero-eyebrow">
-    ⚔ Official Server Store
-  </div>
+  <div class="pangea-hero-eyebrow">⚔ Official Server Store</div>
 
   <h1 class="pangea-hero-title">
-    Welcome to the<br>
-    <span class="store-name-highlight">{{ store.name }}</span> Store
+    Welcome to<br>
+    <span class="store-name-highlight">{{ store.name }}</span>
   </h1>
 
   <p class="pangea-hero-sub">
-    Unlock exclusive ranks, powerful commands, and premium perks to elevate your survival experience. Support the server and dominate the world!
+    Unlock exclusive ranks, powerful commands, and premium perks to elevate your survival experience.
+    Support the server and dominate the world!
   </p>
 
-  <div class="pangea-hero-actions">
-    {% if store.categories|length > 0 %}
-      <a
-        href="/category/{{ store.categories[0].slug ? store.categories[0].slug : store.categories[0].id }}"
-        class="pangea-btn-primary"
-      >
-        🛒 Browse Store
-      </a>
-    {% endif %}
-    <button
-      class="pangea-btn-outline"
-      data-open-modal="rankPerksModal"
-    >
-      👑 View Rank Perks
-    </button>
-  </div>
-
-  {# Server stats strip #}
   <div class="pangea-stats-strip">
     {% if config('server-url') %}
       <div class="pangea-stat-card">
@@ -62,56 +43,39 @@
       <div class="pangea-stat-value">⚡</div>
       <div class="pangea-stat-label">Instant Delivery</div>
     </div>
+    <div class="pangea-stat-card">
+      <div class="pangea-stat-value">🔒</div>
+      <div class="pangea-stat-label">Secure Payments</div>
+    </div>
   </div>
 </section>
 
-{# ─── Rank Tier Strip ──────────────────────────────────────────── #}
-<div class="pangea-rank-strip">
-  <span class="pangea-rank-chip citizen">
-    <span class="pangea-rank-dot citizen"></span>⚙ Citizen
-  </span>
-  <span class="pangea-rank-chip officer">
-    <span class="pangea-rank-dot officer"></span>✦ Officer
-  </span>
-  <span class="pangea-rank-chip commander">
-    <span class="pangea-rank-dot commander"></span>✪ Commander
-  </span>
-  <span class="pangea-rank-chip governor">
-    <span class="pangea-rank-dot governor"></span>⚖ Governor
-  </span>
-  <span class="pangea-rank-chip president">
-    <span class="pangea-rank-dot president"></span>✯ President
-  </span>
-</div>
-
-{# ─── Home Categories (if enabled) ────────────────────────────── #}
-{% if config('home-categories') == 'On' %}
-  <div class="site-home-categories">
-    {% for category in store.categories %}
-      <a class="category" href="/category/{{ category.slug ? category.slug : category.id }}">
-        {% if category.image != packageImageDefault %}
-          <img class="image" src="{{ category.image }}" alt="{{ category.name }}"/>
-        {% else %}
-          <div class="image image-default"></div>
-        {% endif %}
-        {{ category.name }}
-      </a>
-    {% endfor %}
-  </div>
-{% endif %}
-
-{# ─── Main Content ─────────────────────────────────────────────── #}
 <div class="site-content {% if config('home-sidebar') == 'On' %}site-content-widgets{% endif %}">
   <main>
-    {# Store description (set in Tebex admin) #}
-    {% if index.description %}
-      <div class="store-text text-content" style="margin-bottom:24px;">
-        {{ index.description|raw }}
-      </div>
-    {% endif %}
 
-    {# ── Why Buy? info grid ── #}
     <div class="pangea-section-head" style="margin-top:8px;">
+      <h2>How It Works</h2>
+      <p>Get your rank in three simple steps</p>
+    </div>
+    <div class="pangea-steps-grid">
+      <div class="pangea-step">
+        <div class="pangea-step-num">01</div>
+        <h3>Choose Your Rank</h3>
+        <p>Browse our categories and pick the rank that suits your playstyle and ambitions.</p>
+      </div>
+      <div class="pangea-step">
+        <div class="pangea-step-num">02</div>
+        <h3>Complete Purchase</h3>
+        <p>Checkout securely via Tebex. All major payment methods accepted including PayPal, cards &amp; more.</p>
+      </div>
+      <div class="pangea-step">
+        <div class="pangea-step-num">03</div>
+        <h3>Rank Activates</h3>
+        <p>Your rank is applied instantly the moment payment is confirmed — no waiting, no hassle.</p>
+      </div>
+    </div>
+
+    <div class="pangea-section-head" style="margin-top:56px;">
       <h2>Why Shop With Us?</h2>
       <p>Everything you need for the ultimate PangeaMC experience</p>
     </div>
@@ -119,9 +83,9 @@
       <div class="pangea-info-card">
         <div class="pangea-info-icon">🔒</div>
         <h3>Secure Payments</h3>
-        <p>Industry-standard encryption via Tebex. Every transaction is protected.</p>
+        <p>Industry-standard encryption via Tebex. Every transaction is fully protected.</p>
       </div>
-      <div class="pangea-info-card" style="--float-delay:0.5s">
+      <div class="pangea-info-card">
         <div class="pangea-info-icon" style="animation-delay:0.5s">⚡</div>
         <h3>Instant Delivery</h3>
         <p>Rank activates the moment your payment clears — no waiting.</p>
@@ -138,8 +102,7 @@
       </div>
     </div>
 
-    {# ── Store Policies ── #}
-    <div class="pangea-section-head" style="margin-top:36px;">
+    <div class="pangea-section-head" style="margin-top:56px;">
       <h2>Policies</h2>
     </div>
     <div class="pangea-policy-grid">
@@ -165,27 +128,26 @@
       </div>
     </div>
 
-    {# ── Discord CTA ── #}
+    {% if store.pages|length > 0 %}
+      <div class="pangea-pages-bar">
+        <span class="pangea-pages-label">More Pages:</span>
+        {% for p in store.pages %}
+          <a href="/{{ p.slug }}" class="pangea-pages-link">{{ p.title }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
     {% if config('discord-link') %}
       <div class="pangea-discord-cta">
-        <h3>Have Questions?</h3>
+        <h3>Join the Community</h3>
         <p>Join our Discord for instant support, community events, giveaways, and updates on new features and ranks!</p>
-        <a
-          href="{{ config('discord-link') }}"
-          target="_blank"
-          rel="noopener"
-          class="pangea-btn-primary"
-          style="display:inline-flex;"
-        >
-          <img
-            src="https://webstore-template-assets.tebex.io/images/discord.svg"
-            alt="Discord"
-            style="width:18px;height:18px;"
-          />
+        <a href="{{ config('discord-link') }}" target="_blank" rel="noopener" class="pangea-btn-primary" style="display:inline-flex;">
+          <img src="https://webstore-template-assets.tebex.io/images/discord.svg" alt="Discord" style="width:18px;height:18px;"/>
           Join Discord
         </a>
       </div>
     {% endif %}
+
   </main>
 
   {% if config('home-sidebar') == 'On' %}
@@ -193,27 +155,12 @@
   {% endif %}
 </div>
 
-{# ─── Rank Perks Modal ─────────────────────────────────────────── #}
-<div
-  class="pangea-rank-modal-overlay"
-  id="rankPerksModal"
-  role="dialog"
-  aria-modal="true"
-  aria-label="Rank Perks"
->
+<div class="pangea-rank-modal-overlay" id="rankPerksModal" role="dialog" aria-modal="true" aria-label="Rank Perks">
   <div class="pangea-rank-modal">
-    <button
-      class="pangea-rank-modal-close"
-      data-close-modal="rankPerksModal"
-      aria-label="Close"
-    >✕</button>
-
+    <button class="pangea-rank-modal-close" data-close-modal="rankPerksModal" aria-label="Close">✕</button>
     <div class="pangea-rank-modal-title">Rank Perks</div>
     <p class="pangea-rank-modal-sub">All ranks are permanent upgrades. Higher ranks include all perks from ranks below them.</p>
-
     <div class="pangea-ranks-grid">
-
-      {# Citizen #}
       <div class="pangea-rank-card citizen">
         <div class="pangea-rank-badge">⚙ Citizen</div>
         <div class="pangea-rank-name">Citizen</div>
@@ -225,8 +172,6 @@
           <li>Community events access</li>
         </ul>
       </div>
-
-      {# Officer #}
       <div class="pangea-rank-card officer">
         <div class="pangea-rank-badge">✦ Officer</div>
         <div class="pangea-rank-name">Officer</div>
@@ -238,8 +183,6 @@
           <li>Enhanced support access</li>
         </ul>
       </div>
-
-      {# Commander #}
       <div class="pangea-rank-card commander">
         <div class="pangea-rank-badge">✪ Commander</div>
         <div class="pangea-rank-name">Commander</div>
@@ -251,8 +194,6 @@
           <li>Custom title &amp; particles</li>
         </ul>
       </div>
-
-      {# Governor #}
       <div class="pangea-rank-card governor">
         <div class="pangea-rank-badge">⚖ Governor</div>
         <div class="pangea-rank-name">Governor</div>
@@ -264,8 +205,6 @@
           <li>Custom title &amp; particles</li>
         </ul>
       </div>
-
-      {# President #}
       <div class="pangea-rank-card president">
         <div class="pangea-rank-badge">✯ President</div>
         <div class="pangea-rank-name">President</div>
@@ -278,16 +217,10 @@
           <li>Exclusive cosmetics &amp; title</li>
         </ul>
       </div>
-
     </div>
-
     <div style="text-align:center;margin-top:28px;">
       {% if store.categories|length > 0 %}
-        <a
-          href="/category/{{ store.categories[0].slug ? store.categories[0].slug : store.categories[0].id }}"
-          class="pangea-btn-primary"
-          data-close-modal="rankPerksModal"
-        >
+        <a href="/category/{{ store.categories[0].slug ? store.categories[0].slug : store.categories[0].id }}" class="pangea-btn-primary" data-close-modal="rankPerksModal">
           🛒 Shop Ranks Now
         </a>
       {% endif %}

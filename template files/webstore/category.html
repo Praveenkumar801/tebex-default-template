@@ -4,18 +4,24 @@
 <div class="site-content site-content-widgets">
   <main class="store-products">
 
-    {# Section header #}
     <div class="pangea-section-head">
       <h2>{{ category.name }}</h2>
-      {% if category.description != "" %}
-        <p>{{ category.description|striptags }}</p>
-      {% endif %}
     </div>
 
-    {# Full description if rich content #}
     {% if category.description != "" %}
       <div class="category-description text-content" style="margin-bottom:24px;">
         {{ category.description|raw }}
+      </div>
+    {% endif %}
+
+    {% if category.subcategories|length > 0 %}
+      <div class="pangea-subcategory-list">
+        {% for sub in category.subcategories %}
+          <a
+            class="pangea-subcategory-chip {% if sub.active %}active{% endif %}"
+            href="/category/{{ sub.slug ? sub.slug : sub.id }}"
+          >{{ sub.name }}</a>
+        {% endfor %}
       </div>
     {% endif %}
 

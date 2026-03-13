@@ -54,6 +54,7 @@
 
       {%- if config('bg-image') != '' -%}
         --bg-image: url({{ config('bg-image') }});
+        --hero-min-height: 100vh;
       {%- endif -%}
 
       --text-price: "{{ __("Price") }}";
